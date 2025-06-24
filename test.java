@@ -5,15 +5,16 @@ import java.util.List;
 
 public class test {
     public static void main(String[] args) {
-        test t = new test();
+        Solution t = new Solution();
         String[] strs = {"eat", "tea", "tan", "ate", "nat", "bat"};
         List<List<String>> result = t.groupAnagrams(strs);  
         for (List<String> group : result) {
             System.out.println(group);
         }
-    }
-
-   public List<List<String>> groupAnagrams(String[] strs) {
+    } 
+}
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
         List<List<String>> res = new ArrayList<>();
         HashMap<String,List<String>> map = new HashMap<>();
         for (String str : strs) {
@@ -27,6 +28,5 @@ public class test {
         }
         res.addAll(map.values());
         return res;   
-    }
-    
+    }    
 }
