@@ -4,24 +4,31 @@ import java.util.*;
 
 public class test {
     public static void main(String[] args) {
-        int[] nums = {1, 3, -1, -3, 5, 3, 6, 7};
-        int k = 3;
+        String s = "a#b%*";
         Solution solution = new Solution();
-        int[] result = solution.maxSlidingWindow(nums, k);
-        System.out.println(Arrays.toString(result)); // 输出结果
+        String result = solution.processStr(s);
+        System.out.println(result); // 输出处理后的字符串
     } 
 }
 class Solution {
-    public int[] maxSlidingWindow(int[] nums, int k) {
-        int n=nums.length;
-        int [] res = new int[n - k + 1];
-        int max= Integer.MIN_VALUE;
-        for (int i = 0; i < res.length; i++) {
-            max = Integer.MIN_VALUE; // 重置最大值
-            for (int j = i; j < i+k; j++) {
-                max= Math.max(max, nums[j]);
+    public String processStr(String s) {
+        String res="";
+        for(int i=0;i<s.length();i++){
+            if(s.charAt(i)>='a'&&s.charAt(i)<='z'){
+                res+=s.charAt(i);
             }
-            res[i] = max; // 将当前窗口的最大值存入结果数组
+            if(s.charAt(i)=='*'){
+                int n=res.length();
+                if(n!=0){
+                    res= res.substring(0,n-1); // 删除最后一个字符
+                }
+            }
+            if(s.charAt(i)=='#'){
+                res += res;
+            }
+            if(s.charAt(i)=='%'){
+                res = new StringBuilder(res).reverse().toString();
+            }
         }
         return res;
     }
