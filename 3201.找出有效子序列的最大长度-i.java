@@ -1,68 +1,87 @@
-public class test {
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        int[] nums = {1,2,1,1,2,1,2};
-        int result = solution.maximumLength(nums);
-        System.out.println(result); // Expected output: 7      
-    } 
-}
+/*
+ * @lc app=leetcode.cn id=3201 lang=java
+ *
+ * [3201] æ‰¾å‡ºæœ‰æ•ˆå­åºåˆ—çš„æœ€å¤§é•¿åº¦ I
+ */
+
+// @lc code=start
 class Solution {
     public int maximumLength(int[] nums) {
         int res=0;
-        //ÓĞĞ§×ÓĞòÁĞ¼´ÒâÎ¶×Åsub[0]%2=sub[2]%2=0,sub[1]%2=sub[3]%2=1
-        //¼´Å¼ÊıÏÂ±êµÄÔªËØÆæÅ¼ĞÔÏàÍ¬£¬ÆæÊıÏÂ±êµÄÔªËØÆæÅ¼ĞÔÏàÍ¬
-        //ÈıÖÖÇé¿ö
-        //1.Å¼ÊıÏÂ±êµÄÔªËØºÍÆæÊıÏÂ±êµÄÔªËØÆæÅ¼ĞÔÏàÍ¬
-        //2.Å¼ÊıÏÂ±êµÄÔªËØ¶¼ÊÇÆæÊı£¬ÆæÊıÏÂ±êµÄÔªËØ¶¼ÊÇÅ¼Êı
-        //3.Å¼ÊıÏÂ±êµÄÔªËØ¶¼ÊÇÅ¼Êı£¬ÆæÊıÏÂ±êµÄ¶¼ÊÇÆæÊı
-        int tmp = 0;    
+        //æœ‰æ•ˆå­åºåˆ—å³æ„å‘³ç€sub[0]%2=sub[2]%2=0,sub[1]%2=sub[3]%2=1
+        //å³å¶æ•°ä¸‹æ ‡çš„å…ƒç´ å¥‡å¶æ€§ç›¸åŒï¼Œå¥‡æ•°ä¸‹æ ‡çš„å…ƒç´ å¥‡å¶æ€§ç›¸åŒ
+        //ä¸‰ç§æƒ…å†µ
+        //1.å¶æ•°ä¸‹æ ‡çš„å…ƒç´ å’Œå¥‡æ•°ä¸‹æ ‡çš„å…ƒç´ å¥‡å¶æ€§ç›¸åŒ
+        //2.å¶æ•°ä¸‹æ ‡çš„å…ƒç´ éƒ½æ˜¯å¥‡æ•°ï¼Œå¥‡æ•°ä¸‹æ ‡çš„å…ƒç´ éƒ½æ˜¯å¶æ•°
+        //3.å¶æ•°ä¸‹æ ‡çš„å…ƒç´ éƒ½æ˜¯å¶æ•°ï¼Œå¥‡æ•°ä¸‹æ ‡çš„éƒ½æ˜¯å¥‡æ•°
+        int tmp = 0;
+        int count=0;
         for(int i=0;i<nums.length;i++){
-            if(i%2==0){
+            if((i-count)%2==0){
                 if(nums[i]%2==1){
                     tmp++;
+                }else{
+                    count++;
                 }
             }else{
                 if(nums[i]%2==0){
                     tmp++;
+                }else{
+                    count++;
                 }
             }
         }
         res = Math.max(res, tmp);
         tmp = 0;
+        count=0;
         for(int i=0;i<nums.length;i++){
-            if(i%2==0){
+            if((i-count)%2==0){
                 if(nums[i]%2==0){
                     tmp++;
+                }else{
+                    count++;
                 }
             }else{
                 if(nums[i]%2==1){
                     tmp++;
+                }else{
+                    count++;
                 }
             }
         }
         res = Math.max(res, tmp);
         tmp = 0;
+        count=0;
         for(int i=0;i<nums.length;i++){
-            if(i%2==0){
+            if((i-count)%2==0){
                 if(nums[i]%2==1){
                     tmp++;
+                }else{
+                    count++;
                 }
             }else{
                 if(nums[i]%2==1){
                     tmp++;
+                }else{
+                    count++;
                 }
             }
         }
         res = Math.max(res, tmp);
         tmp = 0;
+        count=0;
         for(int i=0;i<nums.length;i++){
-            if(i%2==0){
+            if((i-count)%2==0){
                 if(nums[i]%2==0){
                     tmp++;
+                }else{
+                    count++;
                 }
             }else{
                 if(nums[i]%2==0){
                     tmp++;
+                }else{
+                    count++;
                 }
             }
         }
@@ -70,3 +89,5 @@ class Solution {
         return  res;
     }
 }
+// @lc code=end
+
