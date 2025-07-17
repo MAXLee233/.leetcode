@@ -7,29 +7,36 @@
 // @lc code=start
 
 import java.util.ArrayDeque;
+import java.util.Comparator;
 import java.util.Deque;
+import java.util.PriorityQueue;
 
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         int n=nums.length;
         int [] res = new int[n - k + 1];
-        Deque<Integer> deque = new ArrayDeque(); // 双端队列，用于存储当前窗口的最大值的下标
-        for (int i = 0; i < n; i++) {
-            // 如果队列不为空且当前元素大于等于队列尾部元素，则移除队列尾部元素
-            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
-                deque.pollLast();
+        PriorityQueue<int[]> pq = new PriorityQueue<>(new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] != o2[0] ? o2[0] - o1[0] : o2[1] - o1[1];
+                // o1[0]是值，o1[1]是索引
+                //如果值不相等，按值降序排列,
+                //如果值相等，按索引降序排列
             }
-            deque.offerLast(i); // 将当前元素的下标添加到队列中
-            
-            // 如果队列的头部元素已经不在当前窗口内，则移除它
-            if (deque.peekFirst() == i - k) {
-                deque.pollFirst();
+        });
+        for (int i = 0; i < k; i++) {
+            pq.offer(new int[]{nums[i], i});
+        }
+        //把前k个元素放入优先队列中
+        res[0] = pq.peek()[0];
+        for(int i=k; i<n; i++) {
+            pq.offer(new int[]{nums[i], i});
+            //如果队首元素的索引小于等于i-k，说明它已经不在窗口内了，需要弹出
+            while (pq.peek()[1] <= i - k) {
+                pq.poll();
             }
-            
-            // 当窗口大小达到 k 时，将当前窗口的最大值存入结果数组
-            if (i >= k - 1) {
-                res[i - k + 1] = nums[deque.peekFirst()];
-            }
+            //弹出当前窗口内的最大值
+            res[i - k + 1] = pq.peek()[0];
         }
         return res;
     }
