@@ -1,14 +1,14 @@
-public class test {
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        String result = solution.makeFancyString("leeetcode");
-        System.out.println(result); // 输出 "leetcod"      
-    } 
-}
+/*
+ * @lc app=leetcode.cn id=1957 lang=java
+ *
+ * [1957] 删除字符使字符串变好
+ */
+
+// @lc code=start
 class Solution {
     public String makeFancyString(String s) {
         StringBuilder sb = new StringBuilder();
-        int count = 0;
+        int count = 1;
         sb.append(s.charAt(0)); // 添加第一个字符
         for (int i = 1; i < s.length(); i++) {
             if (s.charAt(i) == s.charAt(i - 1)) {
@@ -27,3 +27,5 @@ class Solution {
         return sb.toString();
     }
 }
+// @lc code=end
+
