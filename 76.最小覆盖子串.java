@@ -10,43 +10,44 @@ import java.util.HashMap;
 
 class Solution {
     public String minWindow(String s, String t) {
-        StringBuilder sb= new StringBuilder();
-        int m=s.length(), n=t.length();
-        HashMap<Character, Integer> need = new HashMap<>();
+        HashMap<Character, Integer> tMap = new HashMap<>();
         HashMap<Character, Integer> window = new HashMap<>();
         for (char c : t.toCharArray()) {
-            need.put(c, need.getOrDefault(c, 0) + 1);
+            tMap.put(c, tMap.getOrDefault(c, 0) + 1);
         }
-        for (char c : s.toCharArray()) {
-            if (need.containsKey(c)) {
-                window.put(c, window.getOrDefault(c, 0) + 1);
-            }
-        }
-        for (char c : need.keySet()) {
-            if (!window.containsKey(c) || window.get(c) < need.get(c)) {
-                return "";
-            }    
-        }
-        int left= 0,right=m-1;
-        while (left < m && right >= 0) {
-            char c = s.charAt(left);
-            if (need.containsKey(c)) {
-                window.put(c, window.get(c) - 1);
-                if (window.get(c) < need.get(c)) {
-                    left++;
-                    continue;
+        //resleft和resRight分别表示最小覆盖子串的起始和结束位置
+        int resLeft = 0, resRight = Integer.MAX_VALUE;
+        int left = 0, right = 0;
+        while (right < s.length()) {
+            char c = s.charAt(right);
+            window.put(c, window.getOrDefault(c, 0) + 1);
+            while (isValid(window, tMap)) {
+                if (right - left + 1 < resRight - resLeft) {
+                    resLeft = left;
+                    resRight = right + 1;
                 }
+                char leftChar = s.charAt(left);
+                //缩小窗口
+                window.put(leftChar, window.get(leftChar) - 1);
+                if (window.get(leftChar) == 0) {
+                    window.remove(leftChar);
+                }
+                left++;
             }
-            while (right >= left && window.get(s.charAt(right)) > need.getOrDefault(s.charAt(right), 0)) {
-                right--;
-            }
-            if (right - left + 1 < sb.length() || sb.length() == 0) {
-                sb.setLength(0);
-                sb.append(s.substring(left, right + 1));
-            }
-            left++;    
+            right++;
         }
-        return sb.toString();
+        if (resRight == Integer.MAX_VALUE) {
+            return "";
+        }
+        return s.substring(resLeft, resRight);
+    }
+    private boolean isValid(HashMap<Character, Integer> window, HashMap<Character, Integer> tMap) {
+        for (char c : tMap.keySet()) {
+            if (window.getOrDefault(c, 0) < tMap.get(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 // @lc code=end
